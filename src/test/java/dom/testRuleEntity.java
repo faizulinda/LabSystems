@@ -6,26 +6,24 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
 
 import java.util.List;
 
-public class WorkflowEntityTest extends TestCase {
+public class testRuleEntity extends TestCase {
     private SessionFactory sessionFactory;
 
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         try{
             sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        }
-        catch (Exception e){
+        } catch (Exception e){
             StandardServiceRegistryBuilder.destroy(registry);
         }
     }
 
     @Override
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         if (sessionFactory != null){
             sessionFactory.close();
         }
@@ -35,17 +33,17 @@ public class WorkflowEntityTest extends TestCase {
     public void testBasicUsage(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(new WorkflowEntity("Workflow_2", "test workflow_2"));
+        session.save(new RuleEntity(1,1,"Test PSM"));
         session.getTransaction().commit();
         session.close();
 
         session = sessionFactory.openSession();
         session.beginTransaction();
-        List list = session.createQuery("from WorkflowEntity").list();
-        for (WorkflowEntity workflow : (List<WorkflowEntity>) list){
-            System.out.println(workflow.getId() + " " + workflow.getName() + " " +  workflow.getDescription());
+        List list = session.createQuery("from RuleEntity").list();
+        for (RuleEntity rule : (List<RuleEntity>) list){
+            System.out.println(rule.getId() + " : " + rule.getWorkflowId() + " : " + rule.getBinId() + " : " + rule.getTestId());
         }
-        session.getTransaction();
+        session.getTransaction().commit();
         session.close();
     }
 }

@@ -5,14 +5,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "workflow", schema = "labsystems")
 public class WorkflowEntity {
+    @GeneratedValue
     private int id;
     private String name;
     private String description;
 
     public WorkflowEntity(){}
 
-    public WorkflowEntity(int id, String name, String description) {
-        this.id = id;
+    public WorkflowEntity(String name, String description) {
         this.name = name;
         this.description = description;
     }

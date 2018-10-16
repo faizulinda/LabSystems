@@ -6,26 +6,23 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
 
 import java.util.List;
 
-public class WorkflowEntityTest extends TestCase {
+public class testBinEntity extends TestCase {
     private SessionFactory sessionFactory;
 
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        try{
+        try {
             sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        }
-        catch (Exception e){
+        } catch (Exception e){
             StandardServiceRegistryBuilder.destroy(registry);
         }
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         if (sessionFactory != null){
             sessionFactory.close();
         }
@@ -34,18 +31,24 @@ public class WorkflowEntityTest extends TestCase {
     @SuppressWarnings("uncheked")
     public void testBasicUsage(){
         Session session = sessionFactory.openSession();
+        //session.beginTransaction();
+        //session.save(new BinEntity(2, "02"));
+        //session.save(new BinEntity(3, "03"));
+        //session.save(new BinEntity(4, "04"));
+        //session.save(new BinEntity(5, "05"));
+        //session.save(new BinEntity(6, "06"));
+        //session.save(new BinEntity(7, "07"));
+        //session.save(new BinEntity(8, "08"));
+        //session.getTransaction().commit();
+        //session.close();
+//
+        //session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(new WorkflowEntity("Workflow_2", "test workflow_2"));
-        session.getTransaction().commit();
-        session.close();
-
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-        List list = session.createQuery("from WorkflowEntity").list();
-        for (WorkflowEntity workflow : (List<WorkflowEntity>) list){
-            System.out.println(workflow.getId() + " " + workflow.getName() + " " +  workflow.getDescription());
+        List list = session.createQuery("from BinEntity").list();
+        for (BinEntity bin : (List<BinEntity>) list){
+            System.out.println(bin.getId() + " : " + bin.getName());
         }
-        session.getTransaction();
+        session.getTransaction().commit();
         session.close();
     }
 }
