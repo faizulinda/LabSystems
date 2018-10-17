@@ -5,17 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "workflow", schema = "labsystems")
 public class WorkflowEntity {
-    @GeneratedValue
     private int id;
     private String name;
     private String description;
-
-    public WorkflowEntity(){}
-
-    public WorkflowEntity(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 
     @Id
     @Column(name = "id", nullable = false)

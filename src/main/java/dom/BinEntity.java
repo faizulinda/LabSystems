@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bin", schema = "labsystems")
 public class BinEntity {
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
     private String name;
 
