@@ -1,0 +1,54 @@
+package dom;
+
+import junit.framework.TestCase;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import java.util.List;
+
+public class TestBinEntity extends TestCase {
+    private SessionFactory sessionFactory;
+
+    @Override
+    protected void setUp() throws Exception {
+        MySessionFactory mySessionFactory = new MySessionFactory();
+        sessionFactory = mySessionFactory.getSessionFactory();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        if ( sessionFactory != null ) {
+            sessionFactory.close();
+        }
+    }
+
+/*    @SuppressWarnings("uncheked")
+    public void testBasicUsage(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(new BinEntity("03"));
+        session.getTransaction().commit();
+        session.close();
+
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        List list = session.createQuery("from BinEntity" ). list();
+        for (BinEntity bin : (List<BinEntity>) list){
+            System.out.println(bin.getId() + " " + bin.getName());
+        }
+        session.getTransaction().commit();
+        session.close();
+    }
+    */
+    public void testGetRow(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from BinEntity where name in (:paramNames)").setParameterList("paramNames", new String[]{"01", "02", "03"});
+        List list = query.list();
+        for (BinEntity bin : (List<BinEntity>) list){
+            System.out.println(bin.getId() + " : " + bin.getName());
+        }
+
+    }
+}
